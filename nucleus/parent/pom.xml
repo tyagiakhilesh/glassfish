@@ -27,7 +27,7 @@
 
     <groupId>org.glassfish.main</groupId>
     <artifactId>nucleus-parent</artifactId>
-    <version>5.1.0-RC1</version>
+    <version>5.1.0-RC2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>GlassFish Nucleus Parent Project</name>
     
@@ -38,7 +38,7 @@
       <connection>scm:git:git://github.com/eclipse-ee4j/glassfish.git</connection>
       <developerConnection>scm:git:git://github.com/eclipse-ee4j/glassfish.git</developerConnection>
       <url>https://github.com/eclipse-ee4j/glassfish</url>
-      <tag>glassfish-main-aggregator-5.1.0-RC1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <issueManagement>
