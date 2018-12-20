@@ -318,7 +318,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
+            <artifactId>jakarta.el</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -731,8 +731,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -907,8 +907,8 @@
             </exclusions>
         </dependency>
        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>

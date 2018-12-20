@@ -127,7 +127,7 @@
 
         <!-- shoal -->
          <dependency>
-              <groupId>org.shoal</groupId>
+              <groupId>org.glassfish.shoal</groupId>
               <artifactId>shoal-gms-api</artifactId>
             <exclusions>
                 <exclusion>
@@ -137,7 +137,7 @@
             </exclusions>
           </dependency>
           <dependency>
-              <groupId>org.shoal</groupId>
+              <groupId>org.glassfish.shoal</groupId>
               <artifactId>shoal-gms-impl</artifactId>
             <exclusions>
                 <exclusion>
@@ -461,7 +461,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.shoal</groupId>
+            <groupId>org.glassfish.shoal</groupId>
             <artifactId>shoal-cache</artifactId>
             <exclusions>
                 <exclusion>
@@ -590,8 +590,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.security.auth.message</groupId>
-            <artifactId>javax.security.auth.message-api</artifactId>
+            <groupId>jakarta.security.auth.message</groupId>
+            <artifactId>jakarta.security.auth.message-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -600,8 +600,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.security.jacc</groupId>
-            <artifactId>javax.security.jacc-api</artifactId>
+            <groupId>jakarta.security.jacc</groupId>
+            <artifactId>jakarta.security.jacc-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -661,8 +661,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.interceptor</groupId>
-            <artifactId>javax.interceptor-api</artifactId>
+            <groupId>jakarta.interceptor</groupId>
+            <artifactId>jakarta.interceptor-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -1045,8 +1045,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.servlet.jsp.jstl</groupId>
-            <artifactId>javax.servlet.jsp.jstl-api</artifactId>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -1066,7 +1066,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
+            <artifactId>jakarta.el</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -1177,7 +1177,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.soteria</groupId>
-            <artifactId>javax.security.enterprise</artifactId>
+            <artifactId>jakarta.security.enterprise</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -1186,8 +1186,8 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.security.enterprise</groupId>
-            <artifactId>javax.security.enterprise-api</artifactId>
+            <groupId>jakarta.security.enterprise</groupId>
+            <artifactId>jakarta.security.enterprise-api</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -1456,7 +1456,7 @@
         <!-- glassfish-jsf -->
        <dependency>
            <groupId>org.glassfish</groupId>
-           <artifactId>javax.faces</artifactId>
+           <artifactId>jakarta.faces</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -1683,17 +1683,7 @@
         <!-- json -->
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
+            <artifactId>jakarta.json</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
