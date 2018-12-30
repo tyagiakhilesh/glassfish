@@ -204,8 +204,7 @@ STRING_LITERAL
 fragment
 ESC
     :   '\\'
-        (   options { warnWhenFollowAmbig = false; }
-        :   'n'
+        (   'n'
         |   'r'
         |   't'
         |   'b'
@@ -214,26 +213,9 @@ ESC
         |   '\''
         |   '\\'
         |   ('u')+ HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
-        |   ('0'..'3')
-            (
-                options {
-                    warnWhenFollowAmbig = false;
-                }
-            :   ('0'..'7')
-                (
-                    options {
-                        warnWhenFollowAmbig = false;
-                    }
-                :   '0'..'7'
-                )?
-            )?
+        |   ('0'..'3')(('0'..'7')('0'..'7')?)?
         |   ('4'..'7')
-            (
-                options {
-                    warnWhenFollowAmbig = false;
-                }
-            :   ('0'..'9')
-            )?
+            (('0'..'9'))?
         )?
     ;
 
@@ -246,28 +228,19 @@ HEX_DIGIT
 
 // a numeric literal
 INT_LITERAL
+    :
     {
         boolean isDecimal=false;
         int tokenType = DOUBLE_LITERAL;
     }
-    :   '.' {_ttype = DOT;}
+    '.' {_ttype = DOT;}
             (('0'..'9')+ {tokenType = DOUBLE_LITERAL;}
              (EXPONENT)?
              (tokenType = FLOATINGPOINT_SUFFIX)?
             { _ttype = tokenType; })?
     |   (   '0' {isDecimal = true;} // special case for just '0'
             (   ('x'|'X')
-                (                                           // hex
-                    // the 'e'|'E' and float suffix stuff look
-                    // like hex digits, hence the (...)+ doesn't
-                    // know when to stop: ambig.  ANTLR resolves
-                    // it correctly by matching immediately.  It
-                    // is therefor ok to hush warning.
-                    options {
-                        warnWhenFollowAmbig=false;
-                    }
-                :   HEX_DIGIT
-                )+
+                (HEX_DIGIT)+
             |   ('0'..'7')+                                 // octal
             )?
         |   ('1'..'9') ('0'..'9')*  {isDecimal=true;}       // non-zero decimal
@@ -293,11 +266,11 @@ EXPONENT
     ;
 
 fragment
-FLOATINGPOINT_SUFFIX returns [int tokenType]
-    : 'f' { tokenType = FLOAT_LITERAL; }
-    | 'F' { tokenType = FLOAT_LITERAL; }
-    | 'd' { tokenType = DOUBLE_LITERAL; }
-    | 'D' { tokenType = DOUBLE_LITERAL; }
+FLOATINGPOINT_SUFFIX
+    : 'f'
+    | 'F'
+    | 'd'
+    | 'D'
     ;
 
 // an identifier.  Note that testLiterals is set to true!  This means
@@ -305,13 +278,13 @@ FLOATINGPOINT_SUFFIX returns [int tokenType]
 // if it's a literal or really an identifer
 
 IDENT
-    options {paraphrase = 'an identifier'; testLiterals=true;} //NOI18N
+    //options {paraphrase = 'an identifier'; testLiterals=true;} //NOI18N
     :   (   'a'..'z'
         |   'A'..'Z'
         |   '_'
         |   '$'
         |   UNICODE_ESCAPE
-        |   c1:'\u0080'..'\uFFFE'
+        |   c1='\u0080'..'\uFFFE'
             {
                 if (!Character.isJavaIdentifierStart(c1)) {
                     errorMsg.error(getLine(), getColumn(),
@@ -326,7 +299,7 @@ IDENT
         |   '$'
         |   '0'..'9'
         |   UNICODE_ESCAPE
-        |   c2:'\u0080'..'\uFFFE'
+        |   c2='\u0080'..'\uFFFE'
             {
                 if (!Character.isJavaIdentifierPart(c2)) {
                     errorMsg.error(getLine(), getColumn(),
