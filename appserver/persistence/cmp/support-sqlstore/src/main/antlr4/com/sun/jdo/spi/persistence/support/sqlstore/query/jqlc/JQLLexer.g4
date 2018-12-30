@@ -317,7 +317,6 @@ UNICODE_ESCAPE
             try {
                 String tmp = text.toString();
                 char c  = (char)Integer.parseInt(tmp.substring(tmp.length() - 4, tmp.length()), 16);
-                // problems using ANTLR feature $setText => use generated code
                 text.setLength(_begin);
                 text.append(new Character(c).toString());
             }
