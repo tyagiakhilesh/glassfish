@@ -57,15 +57,14 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>antlr-maven-plugin</artifactId>
-                <configuration>
-                    <grammars>EJBQL.g, JDOQLCodeGeneration.g, Semantic.g</grammars>
-                </configuration>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>4.7.1</version>
                 <executions>
                     <execution>
+                        <id>antlr</id>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>antlr4</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -107,17 +106,6 @@
             <groupId>org.glassfish.main.common</groupId>
             <artifactId>common-util</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.external</groupId>
-            <artifactId>antlr</artifactId>
-            <version>${antlr.version}</version>
-        </dependency>
-        <dependency> 
-        <!-- We depend on repackaged antlr, but antlr-maven-plugin checks for this dependency to be present -->
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <optional>true</optional> <!-- This ensures that antlr:antlr does not get packaged -->
         </dependency>
         <dependency>
             <groupId>org.glassfish.external</groupId>
