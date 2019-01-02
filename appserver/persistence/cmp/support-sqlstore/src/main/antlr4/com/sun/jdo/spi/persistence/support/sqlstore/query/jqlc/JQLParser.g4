@@ -1,78 +1,70 @@
-
-//===== Parser Class Definitions =====
-
 /**
  * This class defines the syntax analysis (parser) of the JQL compiler.
  *
  * @author  Michael Bouschen
- * @version 0.1
+ * @author  Akhilesh Tyagi
+ * @version 1.0
  */
-class JQLParser extends Parser;
+parser grammar JQLParser;
 
-options {
-    k = 2;                   // two token lookahead
-    exportVocab = JQL;
-    buildAST = true;
-    ASTLabelType = "JQLAST"; // AST variables are defined as JQLAST
-}
 
 tokens
 {
     // "imaginary" tokens, that have no corresponding real input
 
-    QUERY;
-    CLASS_DEF;
-    IMPORT_DEF;
-    PARAMETER_DEF;
-    VARIABLE_DEF;
-    ORDERING_DEF;
-    FILTER_DEF;
-    ARG_LIST;
+    QUERY,
+    CLASS_DEF,
+    IMPORT_DEF,
+    PARAMETER_DEF,
+    VARIABLE_DEF,
+    ORDERING_DEF,
+    FILTER_DEF,
+    ARG_LIST,
 
     // operators
-    UNARY_MINUS;
-    UNARY_PLUS;
-    TYPECAST;
-    OBJECT_EQUAL;
-    OBJECT_NOT_EQUAL;
-    COLLECTION_EQUAL;
-    COLLECTION_NOT_EQUAL;
-    CONCAT;
+    UNARY_MINUS,
+    UNARY_PLUS,
+    TYPECAST,
+    OBJECT_EQUAL,
+    OBJECT_NOT_EQUAL,
+    COLLECTION_EQUAL,
+    COLLECTION_NOT_EQUAL,
+    CONCAT,
 
     // special dot expressions
-    FIELD_ACCESS;
-    STATIC_FIELD_ACCESS;
-    CONTAINS;
-    NOT_CONTAINS;
-    NAVIGATION;
-    STARTS_WITH;
-    ENDS_WITH;
-    IS_EMPTY;
+    FIELD_ACCESS,
+    STATIC_FIELD_ACCESS,
+    CONTAINS,
+    NOT_CONTAINS,
+    NAVIGATION,
+    STARTS_WITH,
+    ENDS_WITH,
+    IS_EMPTY,
 
     // identifier types
-    VARIABLE;
-    PARAMETER;
-    TYPENAME;
+    VARIABLE,
+    PARAMETER,
+    TYPENAME,
 
     // constant value
-    VALUE;
+    VALUE,
 
     // result definition
-    RESULT_DEF;
+    RESULT_DEF,
 
     // non-standard extensions (operators)
-    LIKE;
-    SUBSTRING;
-    INDEXOF;
-    LENGTH;
-    ABS;
-    SQRT;
+    LIKE,
+    SUBSTRING,
+    INDEXOF,
+    LENGTH,
+    ABS,
+    SQRT,
 
     //
-    NOT_IN;
+    NOT_IN
 }
 
-{
+@parser::members {
     /**
      * I18N support
      */

@@ -84,6 +84,16 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.main.persistence</groupId>
+            <artifactId>persistence-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.main.persistence.cmp</groupId>
+            <artifactId>cmp-utility</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
         </dependency>
