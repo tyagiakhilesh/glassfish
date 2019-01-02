@@ -68,8 +68,7 @@ tokens
     /**
      * I18N support
      */
-    private final static ResourceBundle messages = I18NHelper.loadBundle(
-            JQLParser.class);
+    private final static ResourceBundle messages = I18NHelper.loadBundle(JQLParser.class);
 
     /** */
     protected static final int EOF_CHAR = 65535; // = (char) -1 = EOF
@@ -210,16 +209,16 @@ tokens
 // ----------------------------------
 
 parseImports
-{
+@init {
     errorMsg.setContext("declareImports");  //NOI18N
 }
-    :   ( declareImport ( SEMI! declareImport )* )? ( SEMI! )? EOF!
+    :   ( declareImport ( SEMI declareImport )* )? ( SEMI )? EOF
     ;
 
 declareImport
-    :   i:IMPORT^ qualifiedName //NOI18N
+    :   i=IMPORT qualifiedName //NOI18N
         {
-            #i.setType(IMPORT_DEF);
+            $i.setType(IMPORT_DEF);
         }
     ;
 
@@ -228,10 +227,10 @@ declareImport
 // ----------------------------------
 
 parseParameters
-{
+@init {
     errorMsg.setContext("declareParameters"); //NOI18N
 }
-    :   ( declareParameter ( COMMA! declareParameter )* )? ( COMMA! )? EOF!
+    :   ( declareParameter ( COMMA declareParameter )* )? ( COMMA )? EOF
     ;
 
 declareParameter
@@ -244,10 +243,10 @@ declareParameter
 // ----------------------------------
 
 parseVariables
-{
+@init {
     errorMsg.setContext("declareVariables");  //NOI18N
 }
-    :   ( declareVariable ( SEMI! declareVariable )* )? ( SEMI! )? EOF!
+    :   ( declareVariable ( SEMI declareVariable )* )? ( SEMI )? EOF
     ;
 
 declareVariable
@@ -260,14 +259,14 @@ declareVariable
 // ----------------------------------
 
 parseOrdering
-{
+@init {
     errorMsg.setContext("setOrdering");  //NOI18N
 }
-    :   ( orderSpec ( COMMA! orderSpec )* )? ( COMMA! )? EOF!
+    :   ( orderSpec ( COMMA orderSpec )* )? ( COMMA )? EOF
     ;
 
-orderSpec!
-    :   e:expression d:direction
+orderSpec
+    :   e=expression d=direction
         { #orderSpec = #(#[ORDERING_DEF,"orderingDef"], #d, #e); } //NOI18N
     ;
 
@@ -281,28 +280,28 @@ direction
 // ----------------------------------
 
 parseResult
-{
+@init {
     errorMsg.setContext("setResult");  //NOI18N
 }
-    :   ( ( DISTINCT^ )? ( a:aggregateExpr | e:expression ) )? EOF!
+    :   ( ( DISTINCT )? ( a=aggregateExpr | e=expression ) )? EOF
         {
             // create RESULT_DEF node if there was a projection
-            if (#a != null) {
+            if ($a != null) {
                 // skip a possible first distinct in case of an aggregate expr
-                #parseResult = #(#[RESULT_DEF, "resultDef"], #a);
+                #parseResult = #(#[RESULT_DEF, "resultDef"], $a);
             }
-            else if (#e != null) {
+            else if ($e != null) {
                 #parseResult = #(#[RESULT_DEF,"resultDef"], #parseResult); //NOI18N
             }
         }
     ;
 
 aggregateExpr
-    :   ( AVG^ | MAX^ | MIN^ | SUM^ | COUNT^) LPAREN! distinctExpr RPAREN!
+    :   ( AVG | MAX | MIN | SUM | COUNT) LPAREN distinctExpr RPAREN
     ;
 
 distinctExpr
-    :   DISTINCT^ e:expression
+    :   DISTINCT e=expression
     |   expression
     ;
 
@@ -310,17 +309,17 @@ distinctExpr
 // rules filer expression
 // ----------------------------------
 
-parseFilter!
-{
+parseFilter
+@init {
     errorMsg.setContext("setFilter");  //NOI18N
 }
-    :   e:expression EOF!
-        {  #parseFilter = #(#[FILTER_DEF,"filterDef"], #e); } //NOI18N
+    :   e=expression EOF
+        {  #parseFilter = #(#[FILTER_DEF,"filterDef"], $e); } //NOI18N
     ;
 
 // This is a list of expressions.
 expressionList
-    :   expression (COMMA! expression)*
+    :   expression (COMMA expression)*
     ;
 
 expression
@@ -329,40 +328,40 @@ expression
 
 // conditional or ||
 conditionalOrExpression
-    :   conditionalAndExpression (OR^ conditionalAndExpression)*
+    :   conditionalAndExpression (OR conditionalAndExpression)*
     ;
 
 // conditional and &&
 conditionalAndExpression
-    :   inclusiveOrExpression (AND^ inclusiveOrExpression)*
+    :   inclusiveOrExpression (AND inclusiveOrExpression)*
     ;
 
 // bitwise or logical or |
 inclusiveOrExpression
-    :   exclusiveOrExpression (BOR^ exclusiveOrExpression)*
+    :   exclusiveOrExpression (BOR exclusiveOrExpression)*
     ;
 
 // exclusive or ^
 exclusiveOrExpression
-    :   andExpression (BXOR^ andExpression)*
+    :   andExpression (BXOR andExpression)*
     ;
 
 // bitwise or logical and &
 andExpression
-    :   equalityExpression (BAND^ equalityExpression)*
+    :   equalityExpression (BAND equalityExpression)*
     ;
 
 // equality/inequality ==/!=
 equalityExpression
-    :   relationalExpression ((NOT_EQUAL^ | EQUAL^) relationalExpression)*
+    :   relationalExpression ((NOT_EQUAL | EQUAL) relationalExpression)*
     ;
 // boolean relational expressions
 relationalExpression
     :   additiveExpression
-        (   (   LT^
-            |   GT^
-            |   LE^
-            |   GE^
+        (   (   LT
+            |   GT
+            |   LE
+            |   GE
             )
             additiveExpression
         )*
@@ -370,42 +369,40 @@ relationalExpression
 
 // binary addition/subtraction
 additiveExpression
-    :   multiplicativeExpression ((PLUS^ | MINUS^) multiplicativeExpression)*
+    :   multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
     ;
 // multiplication/division/modulo
 multiplicativeExpression
-    :   unaryExpression ((STAR^ | DIV^ | MOD^ ) unaryExpression)*
+    :   unaryExpression ((STAR | DIV | MOD ) unaryExpression)*
     ;
 
 unaryExpression
-    :   MINUS^ {#MINUS.setType(UNARY_MINUS);} unaryExpression
-    |   PLUS^  {#PLUS.setType(UNARY_PLUS);} unaryExpression
+    :   MINUS {#MINUS.setType(UNARY_MINUS);} unaryExpression
+    |   PLUS  {#PLUS.setType(UNARY_PLUS);} unaryExpression
     |   unaryExpressionNotPlusMinus
     ;
 
 unaryExpressionNotPlusMinus
-    :   BNOT^ unaryExpression
-    |   LNOT^ unaryExpression
-    |   ( LPAREN type RPAREN unaryExpression )=>
-          lp:LPAREN^ {#lp.setType(TYPECAST);} type RPAREN! unaryExpression
+    :   BNOT unaryExpression
+    |   LNOT unaryExpression
     |   postfixExpression
     ;
 
 // qualified names, field access, method invocation
 postfixExpression
     :   primary
-        (   DOT^ IDENT ( argList )? )*
+        (   DOT IDENT ( argList )? )*
     ;
 
 argList
-    :   LPAREN!
+    :   LPAREN
         (   expressionList
             {#argList = #(#[ARG_LIST,"ARG_LIST"], #argList); } //NOI18N
 
         |   /* empty list */
             {#argList = #[ARG_LIST,"ARG_LIST"];} //NOI18N
         )
-        RPAREN!
+        RPAREN
     ;
 
 // the basic element of an expression
@@ -413,7 +410,7 @@ primary
     :   IDENT
     |   literal
     |   THIS
-    |   LPAREN! expression RPAREN!
+    |   LPAREN expression RPAREN
     ;
 
 literal
@@ -423,23 +420,23 @@ literal
     |   LONG_LITERAL
     |   FLOAT_LITERAL
     |   DOUBLE_LITERAL
-    |   c:CHAR_LITERAL
+    |   c=CHAR_LITERAL
         {
             // strip quotes from the token text
-            String text = #c.getText();
-            #c.setText(text.substring(1,text.length()-1));
+            String text = $c.getText();
+            $c.setText(text.substring(1,text.length()-1));
         }
-    |   s:STRING_LITERAL
+    |   s=STRING_LITERAL
         {
             // strip quotes from the token text
-            String text = #s.getText();
-            #s.setText(text.substring(1,text.length()-1));
+            String text = $s.getText();
+            $s.setText(text.substring(1,text.length()-1));
         }
     |   NULL
     ;
 
 qualifiedName
-    :   IDENT ( DOT^ IDENT )*
+    :   IDENT ( DOT IDENT )*
     ;
 
 type
