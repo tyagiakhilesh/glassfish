@@ -44,6 +44,7 @@
 
     <properties>
         <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
+        <antlr4.version>4.7.1</antlr4.version>
     </properties>
 
     <build>
@@ -60,7 +61,7 @@
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.7.1</version>
+                <version>${antlr4.version}</version>
                 <executions>
                     <execution>
                         <id>antlr</id>
@@ -125,6 +126,11 @@
             <groupId>org.glassfish.main.common</groupId>
             <artifactId>internal-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr4.version}</version>
         </dependency>
     </dependencies>
 </project>
